@@ -6,7 +6,8 @@ The function triple receives a parameter and returns the result of multiplying i
 **/
 
 
-function triple () {
+const triple =  (number) => {
+    return number*3;
 
 }
 

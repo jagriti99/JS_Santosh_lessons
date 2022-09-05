@@ -25,4 +25,16 @@ let people = ["Sergei", "Mariia", "Boris", "Abel"];
   */
 
   const people = ["Sergei", "Mariia", "Boris", "Abel"];
-  
+//   for (let i = 0; i< people.length;i++)
+// {
+//     console.log(people[i]);
+
+//   }
+// const first = people.shift();
+// const last = people.pop();
+// const add = people.unshift("Mahalete");
+// const n = people.push("JAG");
+// const remove = people.slice(0,1);
+
+console.log( people.slice(0,2));
+console.log( people);

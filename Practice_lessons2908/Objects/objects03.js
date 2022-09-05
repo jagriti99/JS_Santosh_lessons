@@ -12,7 +12,8 @@ age incremented (add 1 to the existing value).
  * @param {number} person[].age
  */
 function incrementAge(person) {
-
+   person.age = person.age +1 ;
+   return person;
 }
 
 // Sample usage - do not modify
@@ -21,4 +22,5 @@ const person = {
     lastName: "Doe",
     age: 18
 }
+
 console.log(incrementAge(person)); // {firstName: "Sam", lastName: "Doe", age: 19}

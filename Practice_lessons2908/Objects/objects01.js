@@ -11,7 +11,12 @@ Give these properties any value you'd like, as long as it fits the expected retu
 **/
 
 function getProductDetails() {
-
+    const productDetails = {
+        id: 1,
+        title: "TV",
+        inStock:"yes",
+    };
+return productDetails;
 }
 
 // Sample usage - do not modify

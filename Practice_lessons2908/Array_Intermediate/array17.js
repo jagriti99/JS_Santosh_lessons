@@ -10,6 +10,10 @@ and the second string is made up of 1 character.
  * @param {string[]} strings
  */
 function getStringSizes(strings) {
+    let string = strings.map((item) => {
+        return item.length;
+    })
+return string;
 
 }
 
