@@ -2,12 +2,24 @@
  * @param {array} items
  * @param {string} item
  */
-function addItem() {}
+function addItem(items, item) {
+ items.push(item);
+  return items;
+}
 
 /**
  * @param {array} items
  */
-function exportLowerCasedCSV() {}
+function exportLowerCasedCSV(items) {
+  const change = items.join(', ').toLowerCase();
+  return change;
+
+  // items.map(function (item){
+  //   return item.toLowerCase();
+
+  // }).join(', ');
+
+}
 
 // Sample usage - do not modify
 let form = document.querySelector('#shopping-list-form');

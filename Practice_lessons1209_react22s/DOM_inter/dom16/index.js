@@ -1,4 +1,8 @@
 const getUserName = () => {
+<<<<<<< HEAD
+=======
+return document.querySelector("#user-name").value;
+>>>>>>> 95c158372879d20d0ab673503efa97684429676b
 
 }
 
