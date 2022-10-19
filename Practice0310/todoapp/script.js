@@ -1,56 +1,82 @@
-// write to-do app
-// grab DOM element and store in JS variables
+const todoForm = document.querySelector(".todo-form");
+const todoInput = document.querySelector(".todo-input");
+const todoItemsList = document.querySelector(".todo-items");
 
-const form = document.querySelector("form");
-const ul = document.querySelector("ul");
-const button = document.querySelector("button");
-const input = document.getElementById("item");
+let todos = [];
 
-//use localstorage to put the items in array
-//use json parse to get items
-//else initialize empty array
-
-// let itemsArray = [];
-// if (localStorage.getItem(items)){
-//     itemsArray = JSON.parse(localStorage.getItem('items'));
-// } else{
-//     itemsArray = [];
-// }
-
-//other way to writethis:
-let itemsArray = localStorage.getItem("items")
-  ? JSON.parse(localStorage.getItem("items"))
-  : [];
-
-localStorage.setItem("items", JSON.stringify(itemsArray));
-const data = JSON.parse(localStorage.getItem("items"));
-//list of items and append to html
-
-const liMaker = (text) => {
-  const li = document.createElement("li");
-  li.textContent = text;
-  ul.appendChild(li);
-};
-//addEvent listener for the form, submit
-form.addEventListener("submit", function (e) {
-  e.preventDefault();
-  itemsArray.push(input.value);
-  localStorage.setItem("items", JSON.stringify(itemsArray));
-  liMaker(input.value);
-  input.value = "";
-});
-//
-// iterate over data
-data.forEach((item) => {
-  liMaker(item);
+todoForm.addEventListener("submit", function (event) {
+  event.preventDefault();
+  addTodo(todoInput.value);
 });
 
-//save it in localStorage
-//event listener for click button
-button.addEventListener("click", function () {
-  localStorage.clear();
-  while (ul.firstChild) {
-    ul.removeChild(ul.firstChild);
+function addTodo(item) {
+  if (item !== "") {
+    const todo = {
+      id: Date.now(),
+      name: item,
+      completed: false,
+    };
+    todos.push(todo);
+    addToLocalStorage(todos);
+    todoInput.value = "";
   }
-  itemsArray = [];
+}
+function renderTodos(todos) {
+  todoItemsList.innerHTML = "";
+
+  todos.forEach(function (item) {
+    const checked = item.completed ? "checked" : null;
+
+    const li = document.createElement("li");
+    li.setAttribute("class", "item");
+    li.setAttribute("data-key", item.id);
+
+    if (item.completed == true) {
+      li.classList.add("checked");
+    }
+    li.innerHTML = `<input type="checkbox" class="checkbox" ${checked}>${item.name} <button class="delete-button">X</button>`;
+
+    todoItemsList.append(li);
+  });
+}
+function addToLocalStorage(todos) {
+  localStorage.setItem("todos", JSON.stringify(todos));
+  renderTodos(todos);
+}
+function getFromLocalStorage() {
+  const reference = localStorage.getItem("todos");
+
+  if (reference) {
+    todos = JSON.parse(reference);
+    renderTodos(todos);
+  }
+}
+function toggle(id) {
+  todos.forEach(function (item) {
+    if (item.id == id) {
+      item.completed = !item.completed;
+    }
+  });
+
+  addToLocalStorage(todos);
+}
+function deleteTodo(id) {
+  todos = todos.filter(function (item) {
+    return item.id != id;
+  });
+
+  addToLocalStorage();
+}
+getFromLocalStorage();
+
+todoItemsList.addEventListener("click", function (event) {
+  if (event.target.type === "checkbox") {
+    toggle(event.target.parentElement.getAttribute("data-key"));
+  }
+
+  // check if that is a delete-button
+  if (event.target.classList.contains("delete-button")) {
+    // get id from data-key attribute's value of parent <li> where the delete-button is present
+    deleteTodo(event.target.parentElement.getAttribute("data-key"));
+  }
 });
