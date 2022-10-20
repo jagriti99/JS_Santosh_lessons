@@ -36,10 +36,19 @@ function renderTodos(todos) {
     }
     li.innerHTML = `<input type="checkbox" class="checkbox" ${checked}>${item.name} <button class="delete-button">X</button>`;
 
+    li.addEventListener("click", function (event) {
+      if (event.target.type === "checkbox") {
+        toggle(event.target.parentElement.getAttribute("data-key"));
+      }
+
+      if (event.target.classList.contains("delete-button")) {
+        deleteTodo(event.target.parentElement.getAttribute("data-key"));
+      }
+    });
     todoItemsList.append(li);
   });
 }
-function addToLocalStorage(todos) {
+function addToLocalStorage() {
   localStorage.setItem("todos", JSON.stringify(todos));
   renderTodos(todos);
 }
@@ -58,7 +67,7 @@ function toggle(id) {
     }
   });
 
-  addToLocalStorage(todos);
+  addToLocalStorage();
 }
 function deleteTodo(id) {
   todos = todos.filter(function (item) {
@@ -69,14 +78,12 @@ function deleteTodo(id) {
 }
 getFromLocalStorage();
 
-todoItemsList.addEventListener("click", function (event) {
+li.addEventListener("click", function (event) {
   if (event.target.type === "checkbox") {
     toggle(event.target.parentElement.getAttribute("data-key"));
   }
 
-  // check if that is a delete-button
   if (event.target.classList.contains("delete-button")) {
-    // get id from data-key attribute's value of parent <li> where the delete-button is present
     deleteTodo(event.target.parentElement.getAttribute("data-key"));
   }
 });
